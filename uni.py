@@ -28,18 +28,22 @@ def showUni():
     # changing response from json to python readable 
     uni_info = response.json()
     
-    result_name=defaultdict(dict)
-    for d in uni_info:
-        result_name[d['name']].update(d)
+    with  open(uni_info) as input_file:
+        old_data= json.load(input_file)
     
-    output_name=result_name.values()
+    d=defaultdict(dict)
+    for item in old_data:
+        d[item['name']].update(item)
+    
+    with open("output.json", "w") as output_file:
+        json.dump(list(d.values()), output_file, indent=4)
     
 
     tfield.delete("1.0", "end")   #to clear the text field for every new output                                   #converting default kelvin value to Celcius
          
     
  
-    tfield.insert(INSERT, output_name)   #to insert or send value in our Text Field to display output
+    tfield.insert(INSERT, output_file)   #to insert or send value in our Text Field to display output
  
  
  
